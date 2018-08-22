@@ -67,6 +67,6 @@ export class FormComponent extends Component {
                     {this.state.grossSalary}
                 </div>
             </div>
-        )
+        );
     }
 }
