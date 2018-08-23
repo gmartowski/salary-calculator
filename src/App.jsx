@@ -8,7 +8,7 @@ import { FormComponent } from './Form/FormComponent';
 export class App extends Component {
     render() {
         return (
-            <div>
+            <div className="app">
                 <Header />
                 <FormComponent />
                 <Footer />

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Calendar from 'react-calendar';
+import Calendar from 'react-calendar/dist/entry.nostyle';
 import './form.less';
 
-const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const workingDaysPerMonth = [21, 20, 22, 20, 20, 21, 22, 22, 20, 23, 21, 19];
 
 export class FormComponent extends Component {
 
@@ -21,7 +21,7 @@ export class FormComponent extends Component {
     };
 
     getNumberOfDaysInMonth = month => {
-        return monthDays[month];
+        return workingDaysPerMonth[month];
     };
 
     getNumberOfHoursInMonth = () => {
@@ -43,10 +43,10 @@ export class FormComponent extends Component {
         return (
             <div className="form">
 
-                <div className="personal-data form__container">
+                <div className="salary-entry-data form__container">
 
                     <div className="form-group">
-                        <label className="form-label">Imię:</label>
+                        <label className="form-label">Imię: </label>
                         <input type='text'
                                className="form-input"
                                name="firstName"
@@ -55,7 +55,7 @@ export class FormComponent extends Component {
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Nazwisko:</label>
+                        <label className="form-label">Nazwisko: </label>
                         <input type='text'
                                className="form-input"
                                name="lastName"
@@ -63,29 +63,14 @@ export class FormComponent extends Component {
                                onChange={({ target: { value, name } }) => this.handleInputChange(value, name)}
                         />
                     </div>
-                </div>
-
-                <div className="salary-calculation form__container">
 
                     <div className="form-group">
                         <label className="form-label">Rozliczam się za miesiąc:</label>
-                        <input type='text'
-                               className="form-input"
-                               name="hours" placeholder=""
-                               value={this.state.date.getMonth()}
-                               onClick={this.toggleCalendar}
-                               onChange={({ target: { value, name } }) => this.handleInputChange(value, name)}
-                        />
-                        {
-                            this.state.calendarVisible &&
-                            <Calendar onChange={this.onChangeDate} maxDetail="year" />
-                        }
-                        <strong>Liczba dni w danym miesiącu:</strong> {this.getNumberOfDaysInMonth(this.state.date.getMonth())} <br />
-                        <strong>Liczba godzin w danym miesiącu:</strong>{this.getNumberOfHoursInMonth()}
+                        <Calendar onChange={this.onChangeDate} maxDetail="year" />
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Liczba godzin przepracowanych:</label>
+                        <label className="form-label">Liczba godzin przepracowanych: </label>
                         <input type='text'
                                className="form-input"
                                name="workedHours"
@@ -95,7 +80,7 @@ export class FormComponent extends Component {
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Ile zarabiasz miesięcznie netto?:</label>
+                        <label className="form-label">Ile zarabiasz miesięcznie netto?: </label>
                         <input type='text'
                                className="form-input"
                                name="netSalary"
@@ -105,28 +90,45 @@ export class FormComponent extends Component {
                     </div>
 
                     <div className="form-group">
+                        <label className="form-label">VAT %: </label>
                         <select className="form-select" name="percent"
                                 value={this.state.percent}
                                 onChange={({ target: { value, name } }) => this.handleInputChange(value, name)}>
                             <option>wybierz oprocentowanie:</option>
                             <option value="0">zw.</option>
+                            <option value="0.05">5%</option>
+                            <option value="0.08">8%</option>
                             <option value="0.23">23%</option>
                         </select>
                     </div>
+                </div>
+
+                <div className="salary-calculation form__container">
 
                     <div className="form-group">
-                        <label className="form-label">Ile zarobiłeś w tym miesiącu netto?:</label>
-                        {this.state.netSalary * this.state.hours / this.state.workedHours}<br/>
-                        {this.state.netSalary}<br/>{this.state.workedHours}
-                        <br/>
-                        {this.state.hours}
-                        <br/>
-                        {this.state.percent}
+                        <strong>Imię i nazwisko pracownika: </strong>
+                        {this.state.firstName}&nbsp;{this.state.lastName}
+                    </div>
+                    <div className="form-group">
+                        <strong>Liczba dni roboczych w danym miesiącu: </strong> {this.getNumberOfDaysInMonth(this.state.date.getMonth())} <br />
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Ile zarobiłeś w tym miesiącu brutto?:</label>
-                        {Number(this.state.netSalary) + Number(this.state.netSalary * this.state.percent)}
+                        <strong>Liczba godzin roboczych w danym miesiącu: </strong>{this.getNumberOfHoursInMonth()}
+                    </div>
+
+                    <div className="form-group">
+                        <strong>% VAT: </strong>{this.state.percent * 100} %
+                    </div>
+
+                    <div className="form-group">
+                        <strong>Ile zarobiłeś w tym miesiącu netto?: </strong>
+                        {this.state.netSalary * this.state.workedHours / this.state.hours}
+                    </div>
+
+                    <div className="form-group">
+                        <strong>Ile zarobiłeś w tym miesiącu brutto?: </strong>
+                        {Number(this.state.netSalary * this.state.workedHours / this.state.hours) + Number(this.state.netSalary * this.state.percent)}
                     </div>
                 </div>
             </div>
