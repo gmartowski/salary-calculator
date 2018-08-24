@@ -1,5 +1,5 @@
 
-#ReactJS Sandbox
+# ReactJS Sandbox
 
 Basic calculator for B2B purposes. 
 
@@ -11,7 +11,7 @@ Basic calculator for B2B purposes.
 
 ## Authors
 
-* **Grzegorz Martowski** - *Initial work* - [Stabsoft](https://stabsoft.pl/)
+* **Grzegorz Martowski** - [Stabsoft](https://stabsoft.pl/)
 
 ## License
 
